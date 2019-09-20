@@ -1,0 +1,20 @@
+<resources>
+	<string name="app_name">Task 1</string>
+	<string name="login_text">Login</string>
+	<string name="logout_text">Log out</string>
+	<string name="name_text">Name</string>
+	<string name="mobile_text">Mobile</string>
+	<string name="register_text">Sign up</string>
+	<string name="dashboard_text">Dashboard</string>
+	<string name="dashboard_sub_text">User Details</string>
+	<string name="log_reg_sub_text">Don\'t have an account?</string>
+	<string name="reg_log_sub_text">Have an account?</string>
+	<string name="email_text">Email</string>
+	<string name="password_text">Password</string>
+	<string name="cpassword_text">Confirm Password</string>
+	<string name="login_sub_text">User should provide their credentials</string>
+	<string name="register_sub_text">New user should provide their credentials</string>
+	
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
