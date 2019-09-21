@@ -64,7 +64,7 @@ public class RegisterFragment extends Fragment {
 					assert getFragmentManager() != null;
 					sendKey.sendData(emailText.getText().toString());
 					getFragmentManager().beginTransaction()
-							.replace(R.id.fragment_container, LoginFragment.newInstance())
+							.replace(R.id.fragment_container, DashboardFragment.newInstance())
 							.commit();
 				}
 			}
