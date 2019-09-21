@@ -14,12 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import java.util.List;
 
 public class DashboardFragment extends Fragment {
-	private SharedPreferences sharedPreferences;
+	static final String TAG = "DASHBOARD";
 	
+	private SharedPreferences sharedPreferences;
 	private Linker linker;
-	private SendKey sendKey;
 	
 	static DashboardFragment newInstance() {
 		return new DashboardFragment();
@@ -47,7 +50,7 @@ public class DashboardFragment extends Fragment {
 		TextView phoneText = view.findViewById(R.id.dbd_mobile);
 		TextView password = view.findViewById(R.id.dbd_password);
 		
-		String key = sendKey.getKey();
+		String key = linker.getKey();
 		nameText.setText(sharedPreferences.getString(key + "NAM", ""));
 		emailText.setText(sharedPreferences.getString(key + "EML", ""));
 		phoneText.setText(sharedPreferences.getString(key + "PHN", ""));
@@ -60,6 +63,9 @@ public class DashboardFragment extends Fragment {
 		logOutButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				assert getFragmentManager() != null;
+				final List<Fragment> fragments = getFragmentManager().getFragments();
+				final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 				builder.setIcon(R.drawable.error_24dp);
 				builder.setTitle("Logout?");
@@ -68,7 +74,7 @@ public class DashboardFragment extends Fragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-						getActivity().onBackPressed();
+						linker.switchFragment(LoginFragment.TAG);
 					}
 				});
 				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -87,6 +93,5 @@ public class DashboardFragment extends Fragment {
 	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		linker = (MainActivity) getActivity();
-		sendKey = (MainActivity) getActivity();
 	}
 }

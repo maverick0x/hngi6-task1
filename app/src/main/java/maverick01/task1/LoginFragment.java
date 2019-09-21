@@ -17,13 +17,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginFragment extends Fragment {
+	static final String TAG = "LOGIN";
+	
 	private TextInputEditText emailText;
 	private TextInputEditText passwordText;
-	
 	private SharedPreferences sharedPreferences;
-	
 	private Linker linker;
-	private SendKey sendKey;
 	
 	static LoginFragment newInstance() {
 		return new LoginFragment();
@@ -54,12 +53,9 @@ public class LoginFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				if (validateLogin()) {
-					assert getFragmentManager() != null;
-					sendKey.sendData(emailText.getText().toString());
-					getFragmentManager().beginTransaction()
-							.replace(R.id.fragment_container, DashboardFragment.newInstance())
-							.addToBackStack(null)
-							.commit();
+					linker.sendData(emailText.getText().toString());
+					linker.switchFragment(DashboardFragment.TAG);
+					clearField();
 				}
 			}
 		});
@@ -68,11 +64,8 @@ public class LoginFragment extends Fragment {
 		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				assert getFragmentManager() != null;
-				getFragmentManager().beginTransaction()
-						.replace(R.id.fragment_container, RegisterFragment.newInstance())
-						.addToBackStack(null)
-						.commit();
+				linker.switchFragment(RegisterFragment.TAG);
+				clearField();
 			}
 		});
 		
@@ -96,11 +89,8 @@ public class LoginFragment extends Fragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
-						assert getFragmentManager() != null;
-						getFragmentManager().beginTransaction()
-								.replace(R.id.fragment_container, RegisterFragment.newInstance())
-								.addToBackStack(null)
-								.commit();
+						linker.switchFragment(RegisterFragment.TAG);
+						clearField();
 					}
 				});
 				AlertDialog dialog = builder.create();
@@ -136,10 +126,14 @@ public class LoginFragment extends Fragment {
 		return false;
 	}
 	
+	private void clearField() {
+		emailText.setText("");
+		passwordText.setText("");
+	}
+	
 	@Override
 	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		linker = (MainActivity) getActivity();
-		sendKey = (MainActivity) getActivity();
 	}
 }

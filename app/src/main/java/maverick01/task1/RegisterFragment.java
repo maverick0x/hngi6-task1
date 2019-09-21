@@ -18,15 +18,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterFragment extends Fragment {
+	static final String TAG = "REGISTER";
+	
 	private TextInputEditText nameText;
 	private TextInputEditText emailText;
 	private TextInputEditText phoneText;
 	private TextInputEditText passwordText;
 	private TextInputEditText cPasswordText;
-	
 	private SharedPreferences sharedPreferences;
-	
-	private SendKey sendKey;
 	private Linker linker;
 	
 	static RegisterFragment newInstance() {
@@ -61,11 +60,9 @@ public class RegisterFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				if (validateAndRegister()) {
-					assert getFragmentManager() != null;
-					sendKey.sendData(emailText.getText().toString());
-					getFragmentManager().beginTransaction()
-							.replace(R.id.fragment_container, DashboardFragment.newInstance())
-							.commit();
+					linker.sendData(emailText.getText().toString());
+					linker.switchFragment(DashboardFragment.TAG);
+					clearField();
 				}
 			}
 		});
@@ -98,7 +95,8 @@ public class RegisterFragment extends Fragment {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
-							getActivity().onBackPressed();
+							linker.switchFragment(LoginFragment.TAG);
+							clearField();
 						}
 					});
 					AlertDialog dialog = builder.create();
@@ -134,10 +132,17 @@ public class RegisterFragment extends Fragment {
 		return false;
 	}
 	
+	private void clearField() {
+		nameText.setText("");
+		emailText.setText("");
+		phoneText.setText("");
+		passwordText.setText("");
+		cPasswordText.setText("");
+	}
+	
 	@Override
 	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		linker = (MainActivity) getActivity();
-		sendKey = (MainActivity) getActivity();
 	}
 }
