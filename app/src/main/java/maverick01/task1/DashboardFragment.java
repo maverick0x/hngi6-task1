@@ -1,6 +1,7 @@
 package maverick01.task1;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,9 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
-import java.util.List;
 
 public class DashboardFragment extends Fragment {
 	private SharedPreferences sharedPreferences;
@@ -60,18 +60,25 @@ public class DashboardFragment extends Fragment {
 		logOutButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				assert getFragmentManager() != null;
-				List<Fragment> fragments = getFragmentManager().getFragments();
-				for (Fragment fragment : fragments) {
-					if (fragment instanceof LoginFragment) {
-						getFragmentManager().beginTransaction()
-								.remove(fragment)
-								.commit();
+				AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+				builder.setIcon(R.drawable.error_24dp);
+				builder.setTitle("Logout?");
+				builder.setMessage("Are you sure you want to log out?");
+				builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						getActivity().onBackPressed();
 					}
-				}
-				getFragmentManager().beginTransaction()
-						.replace(R.id.fragment_container, LoginFragment.newInstance())
-						.commit();
+				});
+				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				AlertDialog dialog = builder.create();
+				dialog.show();
 			}
 		});
 	}

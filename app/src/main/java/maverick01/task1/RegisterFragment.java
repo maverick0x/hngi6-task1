@@ -98,11 +98,7 @@ public class RegisterFragment extends Fragment {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
-							
-							assert getFragmentManager() != null;
-							getFragmentManager().beginTransaction()
-									.replace(R.id.fragment_container, LoginFragment.newInstance())
-									.commit();
+							getActivity().onBackPressed();
 						}
 					});
 					AlertDialog dialog = builder.create();

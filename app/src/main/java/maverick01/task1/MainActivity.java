@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements Linker, SendKey{
+public class MainActivity extends AppCompatActivity implements Linker, SendKey {
 	private static final String PREF_NAME = "Task1";
 	
 	private SharedPreferences sharedPreferences;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements Linker, SendKey{
 		
 		sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 		
-		if (savedInstanceState ==  null) {
+		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.fragment_container, SplashFragment.newInstance())
 					.commitNow();
@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements Linker, SendKey{
 		List<Fragment> fragments = getSupportFragmentManager().getFragments();
 		for (Fragment fragment : fragments) {
 			if (fragment instanceof LoginFragment) finish();
+			else super.onBackPressed();
 		}
-		super.onBackPressed();
 	}
 	
 	@Override
